@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="shortcut icon" href="./icon.png" type="image/x-icon">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: aquamarine;
+      }
+        #wrapper{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid black;
+            padding: 2rem 3rem;
+            height: 20rem;
+            gap: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            background-color: rgb(70, 167, 167);
+        }
+        h2{
+            color: rgb(78, 76, 76);
+        }
+        input{
+            width: 20rem;
+            padding: 0.5rem;
+            background: none;
+            border: 1px solid rgba(20, 216, 190, 0.678);
+            border-radius: 0.2rem;
+        }
+        input:focus{
+            background-color: rgba(91, 250, 229, 0.178);
+            outline: none;
+        }
+        #login-btn{
+            color: rgb(245, 228, 79);
+            width: 100%;
+            padding: 1rem;
+            background-color: rgba(36, 144, 233, 0.925);
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 900;
+        }
+        #login-btn:hover{
+            color: rgb(237, 240, 49);
+            width: 100%;
+            padding: 1rem;
+            background-color: rgb(36, 144, 233);
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 900;
+        }
+        #links{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            gap: 4rem;
+        }
+        #links a{
+            text-decoration: none;
+            color: rgb(67, 65, 65);
+        }
+        #links a:hover{
+            text-decoration: none;
+            color: rgb(139, 35, 35);
+        }
+        .input-wrappers{
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="wrapper" >
+            <h2>Instagram Login</h2>
+        
+        <div id="username-wrapper" class="input-wrappers">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your Username">
+        </div>
+        
+        <div id="password-wrapper" class="input-wrappers">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your Password">
+        </div>
+        
+        <button id="login-btn">Login</button>
+        <div id="links">
+            <a href="/">Forgot Password?</a>
+            <a href="/">Sign Up</a>
+        </div>
+        </div>
+    </div>
+</body>
+<script>
+    const loginBtn = document.querySelector('#login-btn');
+    const username = document.querySelector('#username');
+    const password = document.querySelector('#password');
+    
+    loginBtn.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        if(username.value == '' || password.value == ''){
+            alert('Please fill all the details');
+        }else{
+            const userData = {
+                username: username.value,
+                password: password.value
+            }
+            const res = await fetch('http://127.0.0.1:3000/login', {
+                method: 'POST',
+                body: JSON.stringify(userData),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                SameSite: 'None',
+                Secure: true,
+
+            }).catch(err => console.log(err));
+        
+            if (res.ok == false) {
+                alert('Invalid Credentials, Please try again');
+            }else {
+                window.location.href = "http://127.0.0.1:5500/home.html"
+            }
+        }
+    })
+</script>
+</html>
